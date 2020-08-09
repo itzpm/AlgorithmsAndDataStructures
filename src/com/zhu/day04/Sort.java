@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class Sort {
 
     private static int count;
-    private static final int[] ARRAY = {8, 9, 1, 7, 2, 3, 5, 4, 6, 0};
+    private static final int[] array = {8, 9, 4, 5, 7};
 
     public static int[] getArray() {
         int[] arr = new int[80 * 1000];
@@ -95,23 +95,48 @@ public class Sort {
 
     /**
      * 交换的希尔排序
+     *
      * @throws InterruptedException
      */
     @Test
     public void shellSort() throws InterruptedException {
         int temp;
-        int index = ARRAY.length / 2;
+        int index = array.length / 2;
         for (int k = index; k > 0; k /= 2) {
-            for (int i = k; i < ARRAY.length; i++) {
+            for (int i = k; i < array.length; i++) {
                 for (int j = i - k; j >= 0; j -= k) {
-                    if (ARRAY[j] > ARRAY[j + k]) {
-                        temp = ARRAY[j];
-                        ARRAY[j] = ARRAY[j + k];
-                        ARRAY[j + k] = temp;
+                    if (array[j] > array[j + k]) {
+                        temp = array[j];
+                        array[j] = array[j + k];
+                        array[j + k] = temp;
                     }
                 }
             }
-            System.out.printf("第%d次排序结果为:%s\n", ++count, Arrays.toString(ARRAY));
+            System.out.printf("第%d次排序结果为:%s\n", ++count, Arrays.toString(array));
+        }
+    }
+
+    /**
+     * 移动的希尔排序
+     */
+    @Test
+    public void shellSort2() {
+        //8, 9, 1, 7, 2, 3, 5, 4, 6, 0
+        int temp;
+        int max;
+        int[] array = getArray();
+        int index = array.length / 2;
+        for (int k = index; k > 0; k /= 2) {
+            for (int i = k; i < array.length; i++) {
+                temp = array[i];
+                max = i;
+                while (max - k >= 0 && array[max - k] < temp) {
+                    array[max] = array[max - k];
+                    max -= k;
+                }
+                array[max] = temp;
+            }
+//            System.out.printf("第%d次排序结果为:%s\n", ++count, Arrays.toString(array));
         }
     }
 
