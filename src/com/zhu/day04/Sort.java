@@ -2,7 +2,9 @@ package com.zhu.day04;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author ZPM
@@ -11,7 +13,6 @@ import java.util.Arrays;
 public class Sort {
 
     private static int count;
-    private static final int[] array = {8, 9, 4, 5, 7};
 
     public static int[] getArray() {
         int[] arr = new int[80 * 1000];
@@ -69,6 +70,9 @@ public class Sort {
         return arr;
     }
 
+    public Integer[] getSmallArray() {
+        return new Integer[]{2, 10, 8, 22, 34, 5, 12, 28, 21, 11};
+    }
 
     @Test
     public void insertSort() {
@@ -101,6 +105,7 @@ public class Sort {
     @Test
     public void shellSort() throws InterruptedException {
         int temp;
+        int[] array = getArray();
         int index = array.length / 2;
         for (int k = index; k > 0; k /= 2) {
             for (int i = k; i < array.length; i++) {
@@ -142,5 +147,102 @@ public class Sort {
 
     public static void print(int[] array) {
         System.out.println(Arrays.toString(array));
+    }
+
+    @Test
+    public void testQuick() {
+        Integer[] arr = getSmallArray();
+        int[] a = {9,8,7,6,5,4,3,2,1,0};
+        int[] array = getArray();
+        long time = System.currentTimeMillis();
+        quickSort2(a, 0, a.length - 1);
+        System.out.println(System.currentTimeMillis()-time);
+        System.out.println(Arrays.toString(a));
+//        System.out.println(easyQuickSort(Arrays.asList(arr)));
+    }
+
+    public void quickSort2(int[] arr, int left, int right) {
+        if (arr == null || arr.length == 1 || left > right || left < 0) {
+            return;
+        }
+        int leader = arr[left];
+        int i = left;
+        int j = right;
+        while (i < j) {
+            while (i < j && leader <= arr[j]) {
+                j--;
+            }
+            if (i < j) {
+                arr[i] = arr[j];
+            }
+            while (i < j && leader > arr[i]) {
+                i++;
+            }
+            if (i < j) {
+                arr[j] = arr[i];
+            }
+        }
+        arr[j] = leader;
+        quickSort2(arr, left, j - 1);
+        quickSort2(arr, j + 1, right);
+    }
+
+    public void quickSort(int[] arr, int left, int right) {
+        if (left > right) {
+            return;
+        }
+        int i = left;
+        int j = right;
+        int temp;
+        //最左边的为准基数
+        int flag = arr[left];
+        while (i != j) {
+            //从右侧找到一个比标记小的值
+            while (arr[j] > flag && i < j) {
+                j--;
+            }
+            //从左侧找到一个比标记大的值
+            while (arr[i] <= flag && i < j) {
+                i++;
+            }
+            //交换找到的值,使左边小,右边大
+            if (i < j) {
+                temp = arr[j];
+                arr[j] = arr[i];
+                arr[i] = temp;
+            }
+        }
+        //完成while循环,此时i=j
+        //交换准基数和相遇值,即将中值归位  i j都一样出来都是i=j
+        arr[left] = arr[j];
+        arr[j] = flag;
+
+        //将中值左,右侧的数据分别进行排序(递归)
+        quickSort(arr, left, i - 1);
+        quickSort(arr, i + 1, right);
+
+    }
+
+    public List<Integer> easyQuickSort(List<Integer> list) {
+        if (list == null || list.size() < 1) {
+            return list;
+        }
+        int stand = list.get(0);
+        List<Integer> left = new ArrayList<>();
+        List<Integer> right = new ArrayList<>();
+        //如果起始值i=0会爆栈
+        for (int i = 1; i < list.size(); i++) {
+            if (stand >= list.get(i)) {
+                left.add(list.get(i));
+            } else {
+                right.add(list.get(i));
+            }
+        }
+        List<Integer> list1 = easyQuickSort(left);
+        List<Integer> list2 = easyQuickSort(right);
+        List<Integer> result = new ArrayList<>(list1);
+        result.add(stand);
+        result.addAll(list2);
+        return result;
     }
 }
