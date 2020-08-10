@@ -159,6 +159,7 @@ public class Sort {
         System.out.println(System.currentTimeMillis()-time);
         System.out.println(Arrays.toString(a));
 //        System.out.println(easyQuickSort(Arrays.asList(arr)));
+
     }
 
     public void quickSort2(int[] arr, int left, int right) {
