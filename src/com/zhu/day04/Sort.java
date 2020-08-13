@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author ZPM
@@ -13,9 +14,10 @@ import java.util.List;
 public class Sort {
 
     private static int count;
+    Random r = new Random();
 
     public static int[] getArray() {
-        int[] arr = new int[80 * 1000];
+        int[] arr = new int[100 * 1000 * 1000];
         for (int i = 0; i < arr.length; i++) {
             arr[i] = (int) ((Math.random() + 1) * 1000);
         }
@@ -70,6 +72,10 @@ public class Sort {
         return arr;
     }
 
+    public static void print(int[] array) {
+        System.out.println(Arrays.toString(array));
+    }
+
     public Integer[] getSmallArray() {
         return new Integer[]{2, 10, 8, 22, 34, 5, 12, 28, 21, 11};
     }
@@ -95,7 +101,6 @@ public class Sort {
         System.out.println("一共花费了" + (System.currentTimeMillis() - l) / (double) 1000 + "秒");
         System.out.println("共计" + count + "次");
     }
-
 
     /**
      * 交换的希尔排序
@@ -124,12 +129,10 @@ public class Sort {
     /**
      * 移动的希尔排序
      */
-    @Test
-    public void shellSort2() {
+    public void shellSort2(int[] array) {
         //8, 9, 1, 7, 2, 3, 5, 4, 6, 0
         int temp;
         int max;
-        int[] array = getArray();
         int index = array.length / 2;
         for (int k = index; k > 0; k /= 2) {
             for (int i = k; i < array.length; i++) {
@@ -145,28 +148,25 @@ public class Sort {
         }
     }
 
-    public static void print(int[] array) {
-        System.out.println(Arrays.toString(array));
-    }
-
     @Test
     public void testQuick() {
         Integer[] arr = getSmallArray();
-        int[] a = {9,8,7,6,5,4,3,2,1,0};
+        int[] a = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
         int[] array = getArray();
         long time = System.currentTimeMillis();
-        quickSort2(a, 0, a.length - 1);
-        System.out.println(System.currentTimeMillis()-time);
-        System.out.println(Arrays.toString(a));
+        shellSort2(array);
+        quickSort2(array, 0, array.length - 1);
+        System.out.println(System.currentTimeMillis() - time);
+//        System.out.println(Arrays.toString(a));
 //        System.out.println(easyQuickSort(Arrays.asList(arr)));
 
     }
 
     public void quickSort2(int[] arr, int left, int right) {
-        if (arr == null || arr.length == 1 || left > right || left < 0) {
+        if (left > right) {
             return;
         }
-        int leader = arr[left];
+        int leader = arr[(left + right) / 2];
         int i = left;
         int j = right;
         while (i < j) {
@@ -245,5 +245,47 @@ public class Sort {
         result.add(stand);
         result.addAll(list2);
         return result;
+    }
+
+    @Test
+    public void testMergeSort() {
+        int[] array = {2, 10, 8, 22, 34, 5, 12, 28, 21, 11};
+        int[] temp = new int[array.length];
+        mergeSort(array, 0, array.length - 1,temp);
+        System.out.println(Arrays.toString(array));
+    }
+
+    public void mergeSort(int[] array, int left, int right, int[] temp) {
+        if (left >= right) {
+            return;
+        }
+        int center = (left + right) / 2;
+
+        mergeSort(array, left, center, temp);
+        mergeSort(array, center + 1, right, temp);
+        merge(array, left, right, center, temp);
+    }
+
+    public void merge(int[] arr, int left, int right, int center, int[] tempArr) {
+        int mid = center + 1;
+        int temp = left;
+        int index = left;
+
+        while (left <= center && mid <= right) {
+            if (arr[left] < arr[mid]) {
+                tempArr[temp++] = arr[left++];
+            } else {
+                tempArr[temp++] = arr[mid++];
+            }
+        }
+
+        while (mid <= right) {
+            tempArr[temp++] = arr[mid++];
+        }
+
+        while (left <= center) {
+            tempArr[temp++] = arr[left++];
+        }
+        System.arraycopy(tempArr, index, arr, index, right - index + 1);
     }
 }
