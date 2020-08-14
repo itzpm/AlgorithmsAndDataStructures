@@ -13,7 +13,7 @@ public class SeqSearch {
     static List<Integer> list = new ArrayList<>();
 
     public static void main(String[] args) {
-        System.out.println(binarySearch2(arr, 5, 0, arr.length-1));
+        System.out.println(binarySearch2(arr, 5, 0, arr.length - 1));
     }
 
     public static int seqFind(int[] arr, int destination) {
