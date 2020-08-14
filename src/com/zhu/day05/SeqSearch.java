@@ -35,6 +35,7 @@ public class SeqSearch {
         } else if (arr[mid] > destination) {
             return binarySearch(arr, destination, left, mid - 1);
         } else {
+
             return binarySearch(arr, destination, mid + 1, right);
         }
     }
