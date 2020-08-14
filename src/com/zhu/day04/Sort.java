@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author ZPM
@@ -17,7 +18,7 @@ public class Sort {
     Random r = new Random();
 
     public static int[] getArray() {
-        int[] arr = new int[100 * 1000 * 1000];
+        int[] arr = new int[1000 * 1000 * 100];
         for (int i = 0; i < arr.length; i++) {
             arr[i] = (int) ((Math.random() + 1) * 1000);
         }
@@ -249,10 +250,13 @@ public class Sort {
 
     @Test
     public void testMergeSort() {
-        int[] array = {2, 10, 8, 22, 34, 5, 12, 28, 21, 11};
+//        int[] array = {2, 10, 8, 22, 34, 5, 12, 28, 21, 11};
+        int[] array = getArray();
         int[] temp = new int[array.length];
-        mergeSort(array, 0, array.length - 1,temp);
-        System.out.println(Arrays.toString(array));
+        long time = System.currentTimeMillis();
+        mergeSort(array, 0, array.length - 1, temp);
+        System.out.println((System.currentTimeMillis() - time) / (double) 1000);
+//        System.out.println(Arrays.toString(array));
     }
 
     public void mergeSort(int[] array, int left, int right, int[] temp) {
@@ -287,5 +291,50 @@ public class Sort {
             tempArr[temp++] = arr[left++];
         }
         System.arraycopy(tempArr, index, arr, index, right - index + 1);
+    }
+
+    @Test
+    public void testBucket() throws InterruptedException {
+//        int[] arr = {53, 3, 542, 748, 14, 214};
+        int[] arr = getArray();
+        long time = System.currentTimeMillis();
+        bucketSort(arr);
+        System.out.println(System.currentTimeMillis() - time);
+        TimeUnit.SECONDS.sleep(100000);
+        arr[0] = 1;
+    }
+
+    private int max(int[] arr) {
+        int result = arr[0];
+        for (int num : arr) {
+            result = Math.max(num, result);
+        }
+        return result;
+    }
+
+    public void bucketSort(int[] arr) {
+        String str = max(arr) + "";
+        int[][] buckets = new int[10][arr.length];
+        int[] tempArr = new int[10];
+        for (int n = 0, y = 1; n < str.length(); n++, y *= 10) {
+            for (int k : arr) {
+                int num = k / y % 10;
+                //tempArr[num]++表示第几个桶有几个有效数字
+                buckets[num][tempArr[num]++] = k;
+            }
+            int index = 0;
+            for (int i = 0; i < buckets.length; i++) {
+                if (tempArr[i] != 0) {
+                    //对应的桶里面有多少个有效数字
+                    int count = tempArr[i];
+                    for (int j = 0; j < count; j++) {
+                        arr[index++] = buckets[i][j];
+                    }
+                }
+                tempArr[i] = 0;
+            }
+        }
+//        System.out.println("arr:" + Arrays.toString(arr));
+//        System.out.println("tempArr:" + Arrays.toString(tempArr));
     }
 }

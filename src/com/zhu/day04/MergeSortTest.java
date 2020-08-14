@@ -7,8 +7,8 @@ import java.util.Arrays;
  */
 public class MergeSortTest {
     public static void main(String[] args) {
-        int[] data = new int[]{2, 10, 8, 22, 34, 5, 12, 28, 21, 11};
-//        int[] array = getArray();
+//        int[] data = new int[]{2, 10, 8, 22, 34, 5, 12, 28, 21, 11};
+        int[] data = getArray();
         long time = System.currentTimeMillis();
         sort(data, 0, data.length - 1);
         System.out.println(System.currentTimeMillis() - time);
@@ -28,7 +28,7 @@ public class MergeSortTest {
         sort(data, center + 1, right);
         // 合并
         merge(data, left, center, right);
-        print(data);
+//        print(data);
     }
 
     /**
