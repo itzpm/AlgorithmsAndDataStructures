@@ -6,7 +6,7 @@ package com.zhu.tree;
  */
 public class ArrayBinaryTree {
     private Node head;
-    private int[] arr;
+    private final int[] arr;
 
     public ArrayBinaryTree(int[] arr) {
         this.arr = arr;

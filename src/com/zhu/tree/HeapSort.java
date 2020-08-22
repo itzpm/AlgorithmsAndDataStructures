@@ -8,8 +8,14 @@ import java.util.Arrays;
  */
 public class HeapSort {
     public static void main(String[] args) {
-        int[] arr = {3, 6, 8, 5, 11, 5, 4, 2, 10, 4, 7};
+        int[] arr = new int[80000000];
+
+        for (int i = 0; i < 80000000; i++) {
+            arr[i] = i;
+        }
+        long time = System.currentTimeMillis();
         heapSort(arr);
+        System.out.println("花费了:" + (System.currentTimeMillis() - time) + "毫秒");
     }
 
     public static void heapSort(int[] arr) {
@@ -24,7 +30,7 @@ public class HeapSort {
             arr[0] = temp;
             adjustment(arr, 0, i);
         }
-        System.out.println(Arrays.toString(arr));
+//        System.out.println(Arrays.toString(arr));
     }
 
     private static void adjustment(int[] arr, int i, int length) {
