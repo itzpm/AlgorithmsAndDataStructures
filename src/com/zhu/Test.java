@@ -1,6 +1,6 @@
 package com.zhu;
 
-import com.zhu.huffman.HuffmanTree;
+import com.zhu.datastructures.huffman.HuffmanTree;
 
 import java.util.Arrays;
 
