@@ -37,6 +37,7 @@ public class Graph {
         graph.insertEdges(1, 2, 1);
         graph.insertEdges(1, 3, 1);
         graph.insertEdges(1, 4, 1);
+        graph.showGraph();
 
         graph.bfs();
     }
