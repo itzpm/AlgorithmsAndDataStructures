@@ -43,11 +43,14 @@ public class Kruskal {
         }
     }
 
+    public static void main(String[] args) {
+        kruskal();
+    }
 
     public static void kruskal() {
         int index = 0;
         //表示边的顶点的集合
-        int[] ends = new int[edgeNums];
+        int[] ends = new int[vertx.length];
 
         //存放边的集合
         Side[] result = new Side[vertx.length - 1];
@@ -59,6 +62,7 @@ public class Kruskal {
             int m = getEnd(ends, p1);
             int n = getEnd(ends, p2);
             if (m != n) {
+                //m(把下标当作m)的父节点是n
                 ends[m] = n;
                 result[index++] = edges[i];
             }
@@ -113,11 +117,6 @@ public class Kruskal {
         }
         return i;
     }
-    public static void main(String[] args) {
-        String s = add("11111", "1458397237689213");
-        System.out.println(s);
-        System.out.println("s.length() = " + s.length());
-    }
 
     private static String add(String s1, String s2) {
         char[] c1 = s1.toCharArray();
@@ -136,9 +135,9 @@ public class Kruskal {
                 result[i + 1] = n1[i] + n2[i];
             }
         } else if (n1.length > n2.length) {
-            add(result,n2,n1);
+            add(result, n2, n1);
         } else {
-            add(result,n1,n2);
+            add(result, n1, n2);
         }
         for (int i = result.length - 1; i > 0; i--) {
             result[i - 1] += result[i] / 10;
@@ -154,7 +153,7 @@ public class Kruskal {
         return builder.toString();
     }
 
-    public static void add(int[] result,int[] n1,int[] n2){
+    public static void add(int[] result, int[] n1, int[] n2) {
         int len = n2.length - 1;
         int l = result.length - 1;
         for (int i = n1.length - 1; i >= 0; i--) {

@@ -1,30 +1,57 @@
 package com.zhu;
 
-import com.zhu.datastructures.huffman.HuffmanTree;
-
-import java.util.Arrays;
 
 /**
  * @author zpm
  * @version 1.0
  */
 public class Test {
-    public static void main(String[] args) {
-        String str = "i like like like java do you like a java ?";
-        byte[] bs = HuffmanTree.zip(str);
-        System.out.println(Arrays.toString(bs));
-        System.out.println(HuffmanTree.decode(bs));
-        //110
-        //101
-        //1011
-        //00000010
-        //01111111 11111111 11111111 11111110
-        //00000000 00000000 00000000 11111111
-        //                           00000010
-        //                         1 00000000
-        //                         1 00000010
+    private static Node head;
 
-        String s = Integer.toBinaryString((78 & 0xff));
-        System.out.println(s);
+    static {
+        head = new Node();
+        head.date = 1;
+
+        Node node1 = new Node();
+        node1.date = 2;
+
+        Node node2 = new Node();
+        node2.date = 3;
+
+        Node node3 = new Node();
+        node3.date = 4;
+
+        head.next = node1;
+        node1.next = node2;
+        node2.next = node3;
     }
+
+    public static void main(String[] args) {
+        Node reverse = reverse(head);
+        System.out.println(reverse);
+    }
+
+    public static Node reverse(Node head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        Node newNode = reverse(head.next);
+        Node t1 = head.next;
+        t1.next = head;
+        head.next = null;
+        return newNode;
+    }
+
+    static class Node {
+        int date;
+        Node next;
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "date=" + date +
+                    '}';
+        }
+    }
+
 }
