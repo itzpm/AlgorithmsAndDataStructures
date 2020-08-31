@@ -59,10 +59,11 @@ public class Kruskal {
         for (int i = 0; i < edgeNums; i++) {
             int p1 = getPosition(edges[i].start);
             int p2 = getPosition(edges[i].end);
+            //合并并查集
             int m = getEnd(ends, p1);
             int n = getEnd(ends, p2);
             if (m != n) {
-                //m(把下标当作m)的父节点是n
+                //m(把下标当作m)的父节点是n 并查集的合并
                 ends[m] = n;
                 result[index++] = edges[i];
             }
